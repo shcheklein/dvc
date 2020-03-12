@@ -237,9 +237,11 @@ def _clone_default_branch(url, rev):
                 logger.debug("erepo: git pull {}", url)
                 git.pull()
         else:
-            logger.debug("erepo: git clone {} to a temporary dir", url)
             clone_path = tempfile.mkdtemp("dvc-clone")
-            git = Git.clone(url, clone_path)
+            logger.debug(
+                "erepo: git clone {} to a temporary dir {}", url, clone_path
+            )
+            git = Git.clone(url, clone_path, rev=rev)
             CLONES[url] = clone_path
     finally:
         if git:
